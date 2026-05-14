@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Claude Project Highlighter</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #12343b;
+        --muted: #48626b;
+        --line: rgba(18, 52, 59, 0.12);
+        --paper: #fffaf2;
+        --wash: #f5efe1;
+        --accent: #0f766e;
+        --accent-2: #d97706;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        width: 320px;
+        min-height: 240px;
+        padding: 18px;
+        background:
+          radial-gradient(circle at top right, rgba(217, 119, 6, 0.18), transparent 35%),
+          linear-gradient(160deg, var(--paper), var(--wash));
+        color: var(--ink);
+        font:
+          14px/1.45 "Avenir Next",
+          "Segoe UI Variable Text",
+          "Helvetica Neue",
+          sans-serif;
+      }
+
+      .card {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(8px);
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font:
+          700 19px/1.1 "Iowan Old Style",
+          "Palatino Linotype",
+          serif;
+        letter-spacing: -0.03em;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .count {
+        margin-top: 16px;
+        padding: 14px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(15, 118, 110, 0.12), rgba(217, 119, 6, 0.12));
+      }
+
+      .count-label {
+        display: block;
+        margin-bottom: 2px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .count-value {
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .hint {
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+      }
+
+      button {
+        width: 100%;
+        margin-top: 16px;
+        border: 0;
+        border-radius: 999px;
+        padding: 12px 14px;
+        background: linear-gradient(135deg, var(--accent), #155e75);
+        color: white;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      button:hover {
+        filter: saturate(1.1);
+      }
+
+      button:disabled {
+        cursor: wait;
+        opacity: 0.72;
+      }
+
+      .status {
+        min-height: 20px;
+        margin-top: 10px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Claude Project Highlighter</h1>
+      <p>Project chats get a visual marker in Claude’s history so you can prune standalone chats without touching project work.</p>
+
+      <div class="count">
+        <span class="count-label">Learned Project Chats</span>
+        <div class="count-value" id="chat-count">0</div>
+      </div>
+
+      <p class="hint">Open a project page or a chat inside a project once. The extension remembers that conversation and highlights it anywhere the chat appears later.</p>
+
+      <button id="clear-cache" type="button">Clear Learned Markers</button>
+      <div class="status" id="status" aria-live="polite"></div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+  </html>
