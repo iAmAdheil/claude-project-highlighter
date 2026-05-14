@@ -1,106 +1,89 @@
 # Claude Project Highlighter
 
-Firefox/Zen WebExtension that marks Claude chats which belong to a project.
+Claude Project Highlighter is a Firefox/Zen WebExtension that makes Claude project chats visually distinct in the sidebar, reducing the chance of deleting them while cleaning up chat history.
 
-## What it does
+## Why
 
-- Watches `https://claude.ai/*`.
-- Learns that a chat belongs to a project when Claude exposes project context on the current page.
-- Highlights matching chats anywhere they later appear in Claude's history/sidebar.
+Claude does not clearly indicate in the main chat history whether a conversation belongs to a project. This extension adds a persistent visual highlight for chats that have been identified as project-linked.
 
-## Why it works this way
+## How It Works
 
-Claude does not consistently expose a project label in the history list itself. This extension therefore keeps a local index of conversation IDs that it has seen inside a project.
+The extension watches `https://claude.ai/*` and keeps a local index of chat IDs that belong to projects.
 
-It learns from two situations:
+It learns project membership from two kinds of pages:
 
-1. You open a project page, and the extension records the project chat links visible there.
-2. You open a chat that Claude shows as belonging to a project, and the extension records that chat's project ID.
+1. Project pages, where Claude exposes links to chats inside a project.
+2. Individual chat pages, when Claude exposes enough project context to associate the current chat with a project.
 
-## Files
+Once a chat is learned, it stays highlighted anywhere it appears in Claude's history until the stored mapping is cleared.
 
-- `manifest.json`: MV3 extension manifest for Firefox-class browsers.
-- `content.js`: Learns project membership and decorates chat rows.
-- `content.css`: Visual treatment for project chats.
-- `popup.html`, `popup.js`: Small status popup with a reset button.
-- `scripts/build-xpi.sh`: Packages the extension as a local `.xpi`.
-- `scripts/sign-xpi.sh`: Submits the extension to Mozilla for unlisted signing using AMO API credentials.
+## Features
 
-## Temporary install in Zen
+- Highlights chats that belong to Claude projects
+- Persists learned project-chat mappings in local browser storage
+- Includes a small popup to inspect the learned count and clear stored markers
+- Works with Firefox-class browsers such as Zen
 
-Open `about:debugging#/runtime/this-firefox`, click `Load Temporary Add-on`, and select `manifest.json`.
+## Installation
 
-Temporary add-ons remain installed until you fully restart Zen.
+### Temporary install
 
-## Permanent install in Zen
+For local testing in Firefox or Zen:
 
-Firefox-family browsers require a signed add-on for permanent installation in normal release builds.
+1. Open `about:debugging#/runtime/this-firefox`
+2. Click `Load Temporary Add-on`
+3. Select [`manifest.json`](./manifest.json)
 
-This repo is already prepared for that:
+Temporary add-ons remain installed until the browser is fully restarted.
 
-- The manifest includes a Gecko extension ID:
+### Permanent install
 
-```json
-"browser_specific_settings": {
-  "gecko": {
-    "id": "claude-project-highlighter@local"
-  }
-}
-```
+Firefox-family browsers require signed add-ons for permanent installation in normal release builds.
 
-- `scripts/build-xpi.sh` creates an uploadable `.xpi`.
-
-### 1. Build the XPI
+1. Build the extension package:
 
 ```bash
 chmod +x scripts/build-xpi.sh scripts/sign-xpi.sh
 ./scripts/build-xpi.sh
 ```
 
-That writes a file like:
-
-```text
-dist/claude-project-highlighter-0.1.0.xpi
-```
-
-### 2. Get AMO signing credentials
-
-1. Sign in to the Mozilla Add-on Developer Hub.
-2. Create API credentials for `web-ext sign`.
-3. Export them in your shell:
+2. Sign the package through Mozilla as an unlisted add-on:
 
 ```bash
 export AMO_JWT_ISSUER="your-amo-api-key"
 export AMO_JWT_SECRET="your-amo-api-secret"
-```
-
-### 3. Submit for unlisted signing
-
-```bash
 ./scripts/sign-xpi.sh
 ```
 
-Equivalent raw command:
+3. Install the signed `.xpi` from `about:addons` using `Install Add-on From File...`
+
+## Development
+
+Project structure:
+
+- `manifest.json`: Extension manifest
+- `content.js`: DOM observation, project detection, and highlight logic
+- `content.css`: Sidebar highlight styling
+- `popup.html`, `popup.js`: Popup UI and storage controls
+- `scripts/build-xpi.sh`: Packages the extension as `.xpi`
+- `scripts/sign-xpi.sh`: Submits the extension for Mozilla unlisted signing
+
+Useful commands:
 
 ```bash
-npx web-ext sign --channel=unlisted --api-key="$AMO_JWT_ISSUER" --api-secret="$AMO_JWT_SECRET"
+node --check content.js
+node --check popup.js
+./scripts/build-xpi.sh
 ```
 
-Mozilla returns a signed `.xpi` in a download directory managed by `web-ext`.
+## Privacy
 
-### 4. Install the signed XPI in Zen
+This extension stores learned project-chat mappings in the browser's local extension storage. It does not require any external backend and does not intentionally transmit that data anywhere.
 
-1. Open `about:addons`.
-2. Click the gear icon.
-3. Choose `Install Add-on From File...`.
-4. Select the signed `.xpi` file.
+## Limitations
 
-After that, the extension remains installed across browser restarts like any normal add-on.
+Claude does not expose a public API for project metadata in chat history, so this extension relies on DOM heuristics. If Anthropic changes Claude's UI structure, the detection logic may need updates.
 
-## Persistence behavior
+## License
 
-Learned project-chat mappings are stored in the browser's extension local storage. They persist across Claude tab reloads and browser restarts until you clear them from the extension popup, remove the extension, or wipe the browser profile.
-
-## Caveat
-
-This is intentionally DOM-heuristic based because Claude does not provide a public extension API for project metadata. If Anthropic changes the UI structure, the selector heuristics may need a small update.
+See [LICENSE](./LICENSE).
