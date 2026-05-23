@@ -1,10 +1,18 @@
 # Claude Project Highlighter
 
-Claude Project Highlighter is a Firefox/Zen WebExtension that makes Claude project chats visually distinct in the sidebar, reducing the chance of deleting them while cleaning up chat history.
+Claude Project Highlighter is a Firefox/Zen WebExtension that makes Claude project chats stand out in the sidebar, so it is much easier to tell which chats belong to a project before you clean things up.
+
+## Get It
+
+Install it from Firefox Add-ons:
+
+[Claude Project Highlighter on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/claude-project-highlighter/)
 
 ## Why
 
-Claude does not clearly indicate in the main chat history whether a conversation belongs to a project. This extension adds a persistent visual highlight for chats that have been identified as project-linked.
+I made this because Claude makes it a little too easy to lose track of which chats are tied to a project. When you are cleaning up old conversations, project chats can look almost identical to regular ones, which makes accidental deletes feel way too possible.
+
+This extension adds a persistent visual highlight to chats that belong to Claude projects, so they are easier to spot at a glance.
 
 ## How It Works
 
@@ -17,64 +25,13 @@ It learns project membership from two kinds of pages:
 
 Once a chat is learned, it stays highlighted anywhere it appears in Claude's history until the stored mapping is cleared.
 
-## Features
-
-- Highlights chats that belong to Claude projects
-- Persists learned project-chat mappings in local browser storage
-- Includes a small popup to inspect the learned count and clear stored markers
-- Works with Firefox-class browsers such as Zen
-
 ## Installation
 
-### Temporary install
+### Firefox Add-ons
 
-For local testing in Firefox or Zen:
+The easiest option is to install it directly from Mozilla's marketplace:
 
-1. Open `about:debugging#/runtime/this-firefox`
-2. Click `Load Temporary Add-on`
-3. Select [`manifest.json`](./manifest.json)
-
-Temporary add-ons remain installed until the browser is fully restarted.
-
-### Permanent install
-
-Firefox-family browsers require signed add-ons for permanent installation in normal release builds.
-
-1. Build the extension package:
-
-```bash
-chmod +x scripts/build-xpi.sh scripts/sign-xpi.sh
-./scripts/build-xpi.sh
-```
-
-2. Sign the package through Mozilla as an unlisted add-on:
-
-```bash
-export AMO_JWT_ISSUER="your-amo-api-key"
-export AMO_JWT_SECRET="your-amo-api-secret"
-./scripts/sign-xpi.sh
-```
-
-3. Install the signed `.xpi` from `about:addons` using `Install Add-on From File...`
-
-## Development
-
-Project structure:
-
-- `manifest.json`: Extension manifest
-- `content.js`: DOM observation, project detection, and highlight logic
-- `content.css`: Sidebar highlight styling
-- `popup.html`, `popup.js`: Popup UI and storage controls
-- `scripts/build-xpi.sh`: Packages the extension as `.xpi`
-- `scripts/sign-xpi.sh`: Submits the extension for Mozilla unlisted signing
-
-Useful commands:
-
-```bash
-node --check content.js
-node --check popup.js
-./scripts/build-xpi.sh
-```
+[Install Claude Project Highlighter](https://addons.mozilla.org/en-US/firefox/addon/claude-project-highlighter/)
 
 ## Privacy
 
