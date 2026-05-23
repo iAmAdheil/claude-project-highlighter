@@ -4,9 +4,7 @@ Claude Project Highlighter is a Firefox/Zen WebExtension that makes Claude proje
 
 ## Get It
 
-Install it from Firefox Add-ons:
-
-[Claude Project Highlighter on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/claude-project-highlighter/)
+Install it from Firefox Add-ons: [Claude Project Highlighter on addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/claude-project-highlighter/)
 
 ## Why
 
