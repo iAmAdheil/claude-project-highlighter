@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Claude Project Highlighter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Highlights Claude chats that belong to projects so they stand out in your history.",
   "permissions": [
     "storage"
