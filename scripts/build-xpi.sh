@@ -26,6 +26,7 @@ zip -r "$ARTIFACT_PATH" \
   content.css \
   popup.html \
   popup.js \
+  icons \
   README.md >/dev/null
 
 echo "$ARTIFACT_PATH"

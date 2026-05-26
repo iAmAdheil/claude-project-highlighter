@@ -37,6 +37,20 @@ The easiest option is to install it directly from Mozilla's marketplace:
 
 This extension stores learned project-chat mappings in the browser's local extension storage. It does not require any external backend and does not intentionally transmit that data anywhere.
 
+The storage key is `projectChatIndex`. Each entry is stored as:
+
+```json
+{
+  "chat-id": {
+    "projectId": "project-id",
+    "source": "project-page",
+    "updatedAt": "2026-05-26T12:34:56.000Z"
+  }
+}
+```
+
+You can inspect or edit those mappings from the extension popup by updating the JSON in the "Stored Mappings" editor and saving it back to local storage.
+
 ## Limitations
 
 Claude does not expose a public API for project metadata in chat history, so this extension relies on DOM heuristics. If Anthropic changes Claude's UI structure, the detection logic may need updates.
