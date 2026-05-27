@@ -1,5 +1,7 @@
 # Claude Project Highlighter
 
+![Claude Project Highlighter extension icon](./icons/icon-128.png)
+
 Claude Project Highlighter is a Firefox/Zen WebExtension that makes Claude project chats stand out in the sidebar, so it is much easier to tell which chats belong to a project before you clean things up.
 
 ## Get It
